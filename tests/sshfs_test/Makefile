@@ -1,11 +1,11 @@
-CC=mpicc
+CC=gcc
 SYSIO_HOME=../..
-CRUISE_HOME=../../../cruise
-FUSE_HOME=/data/yzhu/fuse-2.9.7
-GLFS_HOME=../../../xglfs
+#CRUISE_HOME=../../../cruise
+FUSE_HOME=../../../fuse-2.9.7
+#GLFS_HOME=../../../xglfs
 
-GLFS_LIBS=-L$(GLFS_HOME)/test-build -lxglfs -lgfapi -lrt
-CRUISE_LIBS=-L$(CRUISE_HOME)/install/lib -lcruise-posix -pthread
+#GLFS_LIBS=-L$(GLFS_HOME)/test-build -lxglfs -lgfapi -lrt
+#CRUISE_LIBS=-L$(CRUISE_HOME)/install/lib -lcruise-posix -pthread
 
 INCLUDES=-I$(SYSIO_HOME)/include  \
 	-I$(SYSIO_HOME)/dev/stdfd \
@@ -13,8 +13,6 @@ INCLUDES=-I$(SYSIO_HOME)/include  \
 	-I$(SYSIO_HOME)/drivers/sshfs \
 	-I$(SYSIO_HOME)/drivers/fuse \
 	-I$(SYSIO_HOME)/drivers/curlftpfs\
-	-I$(SYSIO_HOME)/drivers/glusterfs \
-	-I$(SYSIO_HOME)/drivers/cruise\
 	-DSTDC_HEADERS=1 \
 	-DTIME_WITH_SYS_TIME=1 \
 	-D_XOPEN_SOURCE=600 \
@@ -25,8 +23,10 @@ INCLUDES=-I$(SYSIO_HOME)/include  \
 	-I. \
 	-DSYSIO_TRACING=1 \
 	-DSTDFD_DEV=1 \
-	-DHAVE_POSIX2008_SCANDIR=1 \
-	-I$(CRUISE_HOME)/src
+	-DHAVE_POSIX2008_SCANDIR=1 
+#	-I$(SYSIO_HOME)/drivers/glusterfs \
+#	-I$(SYSIO_HOME)/drivers/cruise\
+#	-I$(CRUISE_HOME)/src
 	
 FUSE_LIBS=-L$(FUSE_HOME)/install/lib -lfuse  -lglib-2.0 
 FUSE_INCLUDES=-I$(FUSE_HOME)/include \
@@ -35,7 +35,7 @@ FUSE_INCLUDES=-I$(FUSE_HOME)/include \
 	
 SYSIO_INCLUDE=$(SYSIO_HOME)/include
 
-LIBS=-L$(SYSIO_HOME) -lsysio -lpthread -lgthread-2.0 -lcurl $(CRUISE_LIBS) $(FUSE_LIBS) $(GLFS_LIBS)
+LIBS=-L$(SYSIO_HOME) -lsysio -lpthread -lgthread-2.0 -lcurl $(FUSE_LIBS) #$(CRUISE_LIBS) $(GLFS_LIBS)
 
 
 sshfs_wr.o:sshfs_wr.c

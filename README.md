@@ -30,7 +30,6 @@
 6. We include the experimental results for Fig.5-8 of Direct-FUSE paper, 
     	- which can be found under ./results directory.
         
-
 ## License
 Direct-FUSE is distributed under the terms of LGPL v2.1 license.
 

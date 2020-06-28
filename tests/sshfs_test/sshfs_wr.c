@@ -61,7 +61,7 @@ int
 main(int argc, char * const argv[])
 {
 	int	rc, err, size, fd;
-	const char *fpath = "sshfs:/sshfs/test.txt";
+	const char *fpath = "sshfs:/mnt/sshfs/test.txt";
 	struct timeval start, end;
 	double time;
 	char *data;
@@ -88,7 +88,7 @@ main(int argc, char * const argv[])
 
 	read_data = malloc(sizeof(char) * size);
 	memset(read_data, 0, size);
-	err = SYSIO_INTERFACE_NAME(mount)("yzhu@inv10:/data/yzhu/bbfs", "/sshfs/", "sshfs", 2, NULL);
+	err = SYSIO_INTERFACE_NAME(mount)("gvds@192.168.10.2:/tmp", "/mnt/sshfs/", "sshfs", 2, NULL);
 	if (err) {
 		fprintf(stderr, "mount bbfs failed\n");
 		return 0;
@@ -151,7 +151,7 @@ main(int argc, char * const argv[])
 		return 0;
 	}
 		
-	SYSIO_INTERFACE_NAME(umount)("sshfs:/sshfs");
+	SYSIO_INTERFACE_NAME(umount)("sshfs:/mnt/sshfs");
 
 	if (read_data)
 		free(read_data);

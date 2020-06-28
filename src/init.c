@@ -103,8 +103,8 @@
 #include "fuse_bbfs.h"
 #include "fuse_sshfs.h"
 #include "fuse_ftpfs.h"
-#include "fuse_cruise.h"
-#include "fuse_glfs.h"
+//#include "fuse_cruise.h"
+//#include "fuse_glfs.h"
 
 pthread_mutex_t mutex;
 /*
@@ -1134,10 +1134,12 @@ int (*drvinits[])(void) = {
 	_sysio_bbfs_init,
         _sysio_sshfs_init,
 	_sysio_ftpfs_init,
-	_sysio_cruise_init,
-	_sysio_glfs_init,
-        NULL
-};
+	NULL
+	};
+	/*_sysio_cruise_init,
+	_sysio_glfs_init*/
+        
+
 
 
 /*

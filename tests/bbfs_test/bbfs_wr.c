@@ -61,7 +61,7 @@ int main(int argc, char * const argv[])
 {
 	int	i;
 	int	err;
-	const char *fpath = "bbfs:/b_fuse/test.txt";
+	const char *fpath = "bbfs:/mnt/bbfs/test.txt";
 	struct timeval start, end;
 	double time;
   struct stat statbuf;
@@ -92,7 +92,7 @@ int main(int argc, char * const argv[])
 
 	read_data = malloc(sizeof(char) * size);
 	memset(read_data, 0, size);
-	err = SYSIO_INTERFACE_NAME(mount)("/data/yzhu/bbfs", "/b_fuse/", "bbfs", 2, NULL);
+	err = SYSIO_INTERFACE_NAME(mount)("/tmp", "/mnt/bbfs", "bbfs", 2, NULL);
 	if (err) {
 		fprintf(stderr, "mount bbfs failed\n");
 		return 0;
@@ -161,7 +161,7 @@ int main(int argc, char * const argv[])
 	SYSIO_INTERFACE_NAME(close)(fd);
 	SYSIO_INTERFACE_NAME(unlink)(fpath);
 
-	SYSIO_INTERFACE_NAME(umount)("bbfs:/b_fuse");
+	SYSIO_INTERFACE_NAME(umount)("bbfs:/mnt/bbfs");
 
 	if (read_data)
 		free(read_data);

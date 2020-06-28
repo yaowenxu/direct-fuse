@@ -1,22 +1,21 @@
 CC=gcc
-CFLAGS=-fpic -g -O2 
+#CFLAGS=-fpic -g -O2 
 SYSIO_HOME=.
 FUSE_HOME=../fuse-2.9.7#replace to your FUSE_HOME
-CRUISE_HOME=../cruise#your cruise path
-GLFS_HOME=../xglfs#your xglfs path
+#CRUISE_HOME=../cruise#your cruise path
+#GLFS_HOME=../xglfs#your xglfs path
 
 SYSIO_SRC=$(SYSIO_HOME)/src
 SYSIO_DEV=$(SYSIO_HOME)/dev/stdfd
 SYSIO_BBFS=$(SYSIO_HOME)/drivers/bbfs
 SYSIO_SSHFS=$(SYSIO_HOME)/drivers/sshfs
-SYSIO_CRUISE=$(SYSIO_HOME)/drivers/cruise
+#SYSIO_CRUISE=$(SYSIO_HOME)/drivers/cruise
 SYSIO_FUSE=$(SYSIO_HOME)/drivers/fuse
 SYSIO_FTPFS=$(SYSIO_HOME)/drivers/curlftpfs
-SYSIO_GLFS=$(SYSIO_HOME)/drivers/glusterfs
+#SYSIO_GLFS=$(SYSIO_HOME)/drivers/glusterfs
 
-CRUISE_LIBS=-L$(CRUISE_HOME)/install/lib -lcruise-posix -pthread
-CRUISE_INCLUDES=-I$(CRUISE_HOME)/src \
-		-I$(CRUISE_HOME)
+#CRUISE_LIBS=-L$(CRUISE_HOME)/install/lib -lcruise-posix -pthread
+#CRUISE_INCLUDES=-I$(CRUISE_HOME)/src -I$(CRUISE_HOME)
 
 FUSE_LIBS=-lglib-2.0  -L$(FUSE_HOME)/install/lib -lfuse -lgthread-2.0
 FUSE_INCLUDES=-I$(FUSE_HOME)/include \
@@ -29,7 +28,7 @@ FTPFS_LIBS=-lcurl
 
 GLFS_LIBS=-L$(GLFS_HOME)/test-build  -lxglfs -lgfapi -lrt
 
-LIBS=$(FUSE_LIBS) $(CRUISE_LIBS) $(FTPFS_LIBS) $(GLFS_LIBS)
+LIBS=$(FUSE_LIBS) $(FTPFS_LIBS)  #$(CRUISE_LIBS) $(GLFS_LIBS)
 
 INCLUDES=-I$(SYSIO_HOME)/include  \
         -I$(SYSIO_DEV) \
@@ -37,9 +36,6 @@ INCLUDES=-I$(SYSIO_HOME)/include  \
 	-I$(SYSIO_SSHFS) \
 	-I$(SYSIO_FUSE) \
 	-I$(SYSIO_FTPFS) \
-        -I$(SYSIO_CRUISE) \
-	-I$(SYSIO_GLFS) \
-	-I$(GLFS_HOME) \
 	-DSTDC_HEADERS=1 \
         -DTIME_WITH_SYS_TIME=1 \
         -D_XOPEN_SOURCE=600 \
@@ -49,15 +45,18 @@ INCLUDES=-I$(SYSIO_HOME)/include  \
         -DHAVE_POSIX2008_SCANDIR=1 \
 	-DHAVE_ASM_WEAK_DIRECTIVE=1 \
 	$(FUSE_INCLUDES) \
-	$(CRUISE_INCLUDES) \
         -DSYSIO_TRACING=1 \
-        -DSTDFD_DEV=1 
+        -DSTDFD_DEV=1  
+#	$(CRUISE_INCLUDES) \
+#	-I$(GLFS_HOME) \
+#	-I$(SYSIO_GLFS) \
+#	-I$(SYSIO_CRUISE) \
 
 
 CFLAGS=-fpic -g -O2 $(INCLUDES)
 
 all: libsysio.a 
-all: libsysio.so
+# all: libsysio.so
 
 SYSIO_OBJS=	\
 	$(SYSIO_SRC)/access.o \
@@ -111,7 +110,7 @@ SSHFS_OBJS = \
 	$(SYSIO_SSHFS)/sshfs.o \
 	$(SYSIO_SSHFS)/cache.o \
 
-CRUISE_OBJS = $(SYSIO_CRUISE)/fuse_cruise.o
+#CRUISE_OBJS = $(SYSIO_CRUISE)/fuse_cruise.o
 
 FTPFS_OBJS = \
 	$(SYSIO_FTPFS)/fuse_ftpfs.o \
@@ -125,7 +124,7 @@ FTPFS_OBJS = \
 GLFS_OBJS = \
 	$(SYSIO_GLFS)/fuse_glfs.o
 
-OBJ = $(SYSIO_OBJS) $(SYSIO_FUSE_OBJS) $(BBFS_OBJS) $(SSHFS_OBJS) $(CRUISE_OBJS) $(FTPFS_OBJS) $(GLFS_OBJS)
+OBJ = $(SYSIO_OBJS) $(SYSIO_FUSE_OBJS) $(BBFS_OBJS) $(SSHFS_OBJS) $(FTPFS_OBJS)  #$(CRUISE_OBJS) $(GLFS_OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LIBS)
@@ -133,7 +132,7 @@ OBJ = $(SYSIO_OBJS) $(SYSIO_FUSE_OBJS) $(BBFS_OBJS) $(SSHFS_OBJS) $(CRUISE_OBJS)
 libsysio.a: $(OBJ) 
 	ar rcs $@ $^
 
-libsysio.so: $(OBJS) $(SYSIO_FUSE_OBJS) $(BBFS_OBJS) $(SSHFS_OBJS) $(CRUISE_OBJS) $(GLFS_OBJS)
+libsysio.so: $(OBJS) $(SYSIO_FUSE_OBJS) $(BBFS_OBJS) $(SSHFS_OBJS) #$(CRUISE_OBJS) $(GLFS_OBJS)
 	$(CC) -shared $^ -o $@
 clean:
 	rm $(SYSIO_SRC)/*.o
@@ -141,10 +140,10 @@ clean:
 	rm $(SYSIO_FUSE)/*.o
 	rm $(SYSIO_FTPFS)/*.o
 	rm $(SYSIO_SSHFS)/*.o
-	rm $(SYSIO_CRUISE)/*.o 
+#	rm $(SYSIO_CRUISE)/*.o 
 	rm $(SYSIO_DEV)/*.o
 	rm libsysio.a
-	rm libsysio.so
+#	rm libsysio.so
 
 cleanall:
 	rm $(SYSIO_SRC)/*.o
@@ -152,13 +151,13 @@ cleanall:
 	rm $(SYSIO_FUSE)/*.o
 	rm $(SYSIO_FTPFS)/*.o
 	rm $(SYSIO_SSHFS)/*.o
-	rm $(SYSIO_CRUISE)/*.o 
+#	rm $(SYSIO_CRUISE)/*.o 
 	rm $(SYSIO_DEV)/*.o
 	rm libsysio.a
 	rm ./tests/bbfs_test/*.o
 	rm ./tests/sshfs_test/*.o
 	rm ./tests/ftpfs_test/*.o
-	rm ./tests/cruise_test/*.o
-	rm ./tests/glfs_test/*.o
-	rm libsysio.so
+#	rm ./tests/cruise_test/*.o
+#	rm ./tests/glfs_test/*.o
+#	rm libsysio.so
 
