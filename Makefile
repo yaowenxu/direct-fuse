@@ -1,7 +1,7 @@
 CC=gcc
-#CFLAGS=-fpic -g -O2 
+CFLAGS=-fpic -g -O2 
 SYSIO_HOME=.
-FUSE_HOME=/data/yzhu/fuse-2.9.7#replace to your FUSE_HOME (this path is for inv09)
+FUSE_HOME=../fuse-2.9.7#replace to your FUSE_HOME
 CRUISE_HOME=../cruise#your cruise path
 GLFS_HOME=../xglfs#your xglfs path
 
@@ -57,7 +57,7 @@ INCLUDES=-I$(SYSIO_HOME)/include  \
 CFLAGS=-fpic -g -O2 $(INCLUDES)
 
 all: libsysio.a 
-#all: libsysio.so
+all: libsysio.so
 
 SYSIO_OBJS=	\
 	$(SYSIO_SRC)/access.o \
@@ -144,7 +144,7 @@ clean:
 	rm $(SYSIO_CRUISE)/*.o 
 	rm $(SYSIO_DEV)/*.o
 	rm libsysio.a
-#	rm libsysio.so
+	rm libsysio.so
 
 cleanall:
 	rm $(SYSIO_SRC)/*.o
@@ -160,24 +160,5 @@ cleanall:
 	rm ./tests/ftpfs_test/*.o
 	rm ./tests/cruise_test/*.o
 	rm ./tests/glfs_test/*.o
-#	rm libsysio.so
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	rm libsysio.so
 
