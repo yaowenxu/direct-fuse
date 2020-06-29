@@ -88,7 +88,7 @@ main(int argc, char * const argv[])
 
 	read_data = malloc(sizeof(char) * size);
 	memset(read_data, 0, size);
-	err = SYSIO_INTERFACE_NAME(mount)("gvds@192.168.10.2:/tmp", "/mnt/sshfs/", "sshfs", 2, NULL);
+	err = SYSIO_INTERFACE_NAME(mount)("xxx@192.168.10.2:/tmp", "/mnt/sshfs/", "sshfs", 2, NULL);
 	if (err) {
 		fprintf(stderr, "mount bbfs failed\n");
 		return 0;

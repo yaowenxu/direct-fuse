@@ -39,7 +39,7 @@ LIBS=-L$(SYSIO_HOME) -lsysio -lpthread -lgthread-2.0 -lcurl $(FUSE_LIBS) #$(CRUI
 
 
 bbfs_wr.o:bbfs_wr.c
-	$(CC) $(FUSE_INCLUDES) $(INCLUDES) bbfs_wr.c -o bbfs_wr $(LIBS) $(FUSE_LIBS)
+	$(CC) -g $(FUSE_INCLUDES) $(INCLUDES) bbfs_wr.c -o bbfs_wr $(LIBS) $(FUSE_LIBS)
 
 clean:
 	rm bbfs_wr

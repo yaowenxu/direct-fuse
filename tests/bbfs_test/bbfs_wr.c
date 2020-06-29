@@ -25,9 +25,10 @@
 
 #include "sysio.h"
 /*
- * Write 1 GB data with different transfer sizes (input size KB)
+ * Write 1 GB data with different transfer sizes (input size B)
  *
- * Usage: ./bbfs_wr <size>
+ * Usage: ./bbfs_wr <每次写的大小> <传输数据总量> 
+ * eg: ./bbfs_wr 4096 1073741824 
  *
  */
 #include <time.h>
@@ -61,7 +62,7 @@ int main(int argc, char * const argv[])
 {
 	int	i;
 	int	err;
-	const char *fpath = "bbfs:/mnt/bbfs/test.txt";
+	const char *fpath = "bbfs:/bbfuse/test.txt";
 	struct timeval start, end;
 	double time;
   struct stat statbuf;
@@ -92,7 +93,7 @@ int main(int argc, char * const argv[])
 
 	read_data = malloc(sizeof(char) * size);
 	memset(read_data, 0, size);
-	err = SYSIO_INTERFACE_NAME(mount)("/tmp", "/mnt/bbfs", "bbfs", 2, NULL);
+	err = SYSIO_INTERFACE_NAME(mount)("/tmp", "/bbfuse/", "bbfs", 2, NULL);
 	if (err) {
 		fprintf(stderr, "mount bbfs failed\n");
 		return 0;
@@ -159,9 +160,9 @@ int main(int argc, char * const argv[])
 
 	
 	SYSIO_INTERFACE_NAME(close)(fd);
-	SYSIO_INTERFACE_NAME(unlink)(fpath);
+	/* SYSIO_INTERFACE_NAME(unlink)(fpath);*/
 
-	SYSIO_INTERFACE_NAME(umount)("bbfs:/mnt/bbfs");
+	SYSIO_INTERFACE_NAME(umount)("bbfs:/bbfuse");
 
 	if (read_data)
 		free(read_data);

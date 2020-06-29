@@ -53,7 +53,7 @@ INCLUDES=-I$(SYSIO_HOME)/include  \
 #	-I$(SYSIO_CRUISE) \
 
 
-CFLAGS=-fpic -g -O2 $(INCLUDES)
+CFLAGS=-fpic -g -O0 $(INCLUDES)
 
 all: libsysio.a 
 # all: libsysio.so

@@ -1,1 +1,3 @@
-    mknod returned 0
+    mknod returned -1
+    ERROR mknod: File exists
+    lstat returned 0
